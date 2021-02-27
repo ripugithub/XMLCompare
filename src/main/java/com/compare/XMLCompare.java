@@ -3,9 +3,11 @@ package com.compare;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.custommonkey.xmlunit.DetailedDiff;
@@ -54,8 +56,24 @@ public class XMLCompare {
 		System.out.println("================================");
 
 		for (Difference difference : differences) {
+			System.out.println(difference.getControlNodeDetail().toString()+"	"+difference.getTestNodeDetail().toString());
 			System.out.println(difference);
 		}
+		try {
+		writeToCSV(differences);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void writeToCSV(List<Difference> differences) throws IOException {
+		 FileWriter writer = new FileWriter("C:\\Users\\user\\Desktop\\XMLWrite.csv");
+		 List<String> test = new ArrayList<String>();
+		 for (Difference difference : differences) {
+			 //test.add(difference.getDescription());
+			 writer.write(difference.toString());
+		 }
+		 writer.close();
 	}
 
 }
